@@ -1,4 +1,4 @@
-<?php namespace app;
+<?php
 /**
  * Created by PhpStorm.
  * User: wuyihao
