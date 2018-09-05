@@ -5,6 +5,8 @@
  * Date: 2018/9/4
  * Time: 下午11:10
  */
+include 'ArrayList.php';
+include 'Stack.php';
 
 class ArrayStack implements Stack
 {
@@ -45,5 +47,21 @@ class ArrayStack implements Stack
     {
         return $this->array->getLast();
     }
+
+}
+
+try {
+    $arrayStack = new ArrayStack();
+    $arrayStack->push(1);
+    $arrayStack->push(2);
+    $arrayStack->push(3);
+
+    var_dump($arrayStack->peek());
+    var_dump($arrayStack->pop());
+    var_dump($arrayStack);
+
+} catch (Exception $exception) {
+
+    echo $exception->getMessage();
 
 }
