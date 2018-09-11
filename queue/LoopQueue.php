@@ -79,10 +79,9 @@ class LoopQueue implements Queue
 
         $capacity = $this->getCapacity();
 
-        // $capacity 至少为4才缩容
-        if($this->size == $capacity / 4 && $capacity / 2 != 0) {
+        if($this->size == (int) ($capacity / 4) && $capacity / 2 != 0) {
 
-            $this->resize($capacity / 2);
+            $this->resize((int) ($capacity / 2));
 
         }
         return $ret;
@@ -114,17 +113,16 @@ class LoopQueue implements Queue
 
 try {
 
-    $queue = new LoopQueue(4);
+    $queue = new LoopQueue(3);
     $queue->enqueue(1);
     $queue->enqueue(2);
     $queue->enqueue(3);
-    $queue->enqueue(4);
 
     var_dump($queue);
 
-    var_dump($queue->dequeue());#
-    var_dump($queue->dequeue());#
-    var_dump($queue->dequeue());#
+    var_dump($queue->dequeue());
+    var_dump($queue->dequeue());
+//    var_dump($queue->dequeue());
 
     var_dump($queue);
 
