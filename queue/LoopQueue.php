@@ -22,7 +22,7 @@ class LoopQueue implements Queue
 
     public function __construct($capacity = 10)
     {
-        $this->data = new SplFixedArray($capacity+1);
+        $this->data = new SplFixedArray($capacity+1);//浪费1个空间
         $this->front = 0;
         $this->tail = 0;
         $this->size = 0;
@@ -47,7 +47,7 @@ class LoopQueue implements Queue
     public function enqueue($e)
     {
 
-        $length = count($this->data);
+        $length = $this->data->count();
 
         if(($this->tail + 1) % $length == $this->front) {
 
@@ -56,7 +56,7 @@ class LoopQueue implements Queue
         }
 
         $this->data[$this->tail] = $e;
-        $this->tail = ($this->tail + 1) % $length;
+        $this->tail = ($this->tail + 1) % $this->data->count();
         $this->size++;
 
     }
@@ -89,8 +89,9 @@ class LoopQueue implements Queue
 
     public function getFront()
     {
-        if($this->isEmpty())
+        if ($this->isEmpty()) {
             throw new Exception("Queue is empty.");
+        }
         return $this->data[$this->front];
     }
 
@@ -98,7 +99,7 @@ class LoopQueue implements Queue
     {
         $newData = new \SplFixedArray($newCapacity+1);
         for($i = 0; $i < $this->size; $i++) {
-            $newData[$i] = $this->data[$i + $this->front] % count($this->data);
+            $newData[$i] = $this->data[$i + $this->front] % $this->data->count();
         }
         $this->data = $newData;
         $this->front = 0;
@@ -112,9 +113,11 @@ try {
     $queue = new LoopQueue(3);
     $queue->enqueue(1);
     $queue->enqueue(2);
+    $queue->enqueue(3);
+    $queue->enqueue(4);
 
-    var_dump($queue->dequeue());
-    var_dump($queue->getFront());
+   # var_dump($queue->dequeue());
+   # var_dump($queue->getFront());
 
     var_dump($queue); die;
 
