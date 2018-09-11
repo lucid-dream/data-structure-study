@@ -149,9 +149,9 @@ class ArrayList
 
         $length = $this->getCapacity();
 
-        if($this->size == $length / 4 && $length / 2 != 0)
+        if($this->size == (int) ($length / 4) && (int) ($length / 2) != 0)
         {
-            $this->resize($length / 2);
+            $this->resize((int) ($length / 2));
 
         }
 
