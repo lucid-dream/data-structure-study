@@ -79,6 +79,7 @@ class LoopQueue implements Queue
 
         $capacity = $this->getCapacity();
 
+        // $capacity 至少为4才缩容
         if($this->size == $capacity / 4 && $capacity / 2 != 0) {
 
             $this->resize($capacity / 2);
