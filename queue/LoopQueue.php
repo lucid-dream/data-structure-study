@@ -30,7 +30,7 @@ class LoopQueue implements Queue
 
     public function getCapacity()
     {
-        return count($this->data) - 1;
+        return $this->data->count() - 1;
     }
 
     public function isEmpty()
@@ -73,7 +73,7 @@ class LoopQueue implements Queue
 
         $this->data[$this->front] = null;
 
-        $this->front = ($this->front + 1) % count($this->data);
+        $this->front = ($this->front + 1) % $this->data->count();
 
         $this->size --;
 
@@ -99,7 +99,10 @@ class LoopQueue implements Queue
     {
         $newData = new \SplFixedArray($newCapacity+1);
         for($i = 0; $i < $this->size; $i++) {
-            $newData[$i] = $this->data[$i + $this->front] % $this->data->count();
+
+            $key = ($i + $this->front) % $this->data->count();
+            $newData[$i] = $this->data[$key];
+          //  $newData[$i] = $this->data[$i];
         }
         $this->data = $newData;
         $this->front = 0;
@@ -110,16 +113,19 @@ class LoopQueue implements Queue
 
 try {
 
-    $queue = new LoopQueue(3);
+    $queue = new LoopQueue(4);
     $queue->enqueue(1);
     $queue->enqueue(2);
     $queue->enqueue(3);
     $queue->enqueue(4);
 
-   # var_dump($queue->dequeue());
-   # var_dump($queue->getFront());
+    var_dump($queue);
 
-    var_dump($queue); die;
+    var_dump($queue->dequeue());#
+    var_dump($queue->dequeue());#
+    var_dump($queue->dequeue());#
+
+    var_dump($queue);
 
 } catch (Exception $exception) {
 
