@@ -8,4 +8,5 @@
 - [x] 有效括号使用栈实现
 
 ## 队列
+- [x] ArrayQueue
 - [x] LoopQueue
