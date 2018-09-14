@@ -14,7 +14,7 @@
  * Class ArrayQueue
  */
 include 'Queue.php';
-include '../stack/ArrayList.php';
+include '../array/ArrayList.php';
 
 class ArrayQueue implements Queue
 {

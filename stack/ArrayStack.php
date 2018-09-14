@@ -5,7 +5,7 @@
  * Date: 2018/9/4
  * Time: 下午11:10
  */
-include 'ArrayList.php';
+include '../array/ArrayList.php';
 include 'Stack.php';
 
 class ArrayStack implements Stack
