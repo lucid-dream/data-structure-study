@@ -6,8 +6,6 @@
  * Time: 下午6:48
  */
 
-#include './stack/ArrayList.php';
-
 /**
  * 数组队列
  *

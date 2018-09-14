@@ -166,25 +166,25 @@ class LinkedList
 
 }
 
-try {
-
-    $link = new LinkedList();
-
-    $link->addFirst(1);
-    $link->addFirst(2);
-    $link->addLast(3);
-
-    echo '<pre>';
-    print_r($link);
-
-    $link->removeLast();
-
-    print_r($link);
-
-
-} catch (Exception $exception) {
-
-    echo $exception->getMessage();
-
-}
+//try {
+//
+//    $link = new LinkedList();
+//
+//    $link->addFirst(1);
+//    $link->addFirst(2);
+//    $link->addLast(3);
+//
+//    echo '<pre>';
+//    print_r($link);
+//
+//    $link->removeLast();
+//
+//    print_r($link);
+//
+//
+//} catch (Exception $exception) {
+//
+//    echo $exception->getMessage();
+//
+//}
 
