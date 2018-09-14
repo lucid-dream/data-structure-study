@@ -11,7 +11,7 @@
 ## 队列
 - [x] ArrayQueue
 - [x] LoopQueue
-- [ ] LinkedListQueue
+- [x] LinkedListQueue
 
 ## 链表
 - [x] LinkedList
