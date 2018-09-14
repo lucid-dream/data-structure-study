@@ -5,6 +5,7 @@
  * Date: 2018/8/30
  * Time: 下午7:50
  */
+
 class ArrayList
 {
 
@@ -82,6 +83,16 @@ class ArrayList
         return $this->data[$index];
     }
 
+    public function getLast()
+    {
+        return $this->get($this->size-1);
+    }
+
+    public function getFirst()
+    {
+        return $this->get(0);
+    }
+
     // 修改index索引位置的元素为e
     public function set($index, $e)
     {
@@ -139,9 +150,9 @@ class ArrayList
 
         $length = $this->getCapacity();
 
-        if($this->size == $length / 4 && $length / 2 != 0)
+        if($this->size == (int) ($length / 4) && (int) ($length / 2) != 0)
         {
-            $this->resize($length / 2);
+            $this->resize((int) ($length / 2));
 
         }
 
@@ -184,28 +195,6 @@ class ArrayList
         }
         $this->data = $newData;
     }
-
-}
-
-
-try {
-
-    $a = new ArrayList(4);
-
-    $a->add(0, 1);
-    $a->add(1, 2);
-    $a->add(2, 3);
-    $a->add(3, 4);
-
-    $a->remove(3);
-    $a->remove(2);
-    $a->remove(1);
-
-    var_dump($a);
-
-} catch (\Exception $exception) {
-
-    echo $exception->getMessage();
 
 }
 
