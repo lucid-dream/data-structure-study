@@ -5,7 +5,6 @@
 
 ## 栈
 - [x] ArrayStack
-- [x] 有效括号使用栈实现
 - [x] LinkedListStack
 
 ## 队列
