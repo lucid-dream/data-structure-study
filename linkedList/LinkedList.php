@@ -8,6 +8,7 @@
 
 include 'Node.php';
 
+// 单向链表
 class LinkedList
 {
 
