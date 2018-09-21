@@ -35,13 +35,13 @@ echo '<pre>';
 print_r($tree);
 
 echo "<hr>";
-$tree->preOrder(); // 前序遍历
+$tree->preOrder(); // 前序遍历 5 -> 3 -> 2 -> 4 -> 6 -> 8
 
 echo "<hr>";
-$tree->inOrder(); // 中序遍历
+$tree->inOrder(); // 中序遍历  2 -> 3 -> 4 -> 5 -> 6 -> 8
 
 echo "<hr>";
-$tree->postOrder(); // 后序遍历
+$tree->postOrder(); // 后序遍历 2 -> 4 -> 3 -> 8 -> 6 -> 5
 
 
 

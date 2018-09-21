@@ -140,21 +140,21 @@ class BinarySearchTree
 
 
     // 二分搜索树的后序遍历
-    // 左子树 ---> 右子树 ---> 根结点
     public function postOrder()
     {
         $this->postOrderNode($this->root);
     }
 
     // 后序遍历以node为根的二分搜索树, 递归算法
+    // 左子树 ---> 右子树 ---> 根结点
     private function postOrderNode($node)
     {
         if ($node == null) {
             return;
         }
 
-        $this->preOrderNode($node->left);
-        $this->preOrderNode($node->right);
+        $this->postOrderNode($node->left);
+        $this->postOrderNode($node->right);
         echo $node->e . PHP_EOL;
     }
 
