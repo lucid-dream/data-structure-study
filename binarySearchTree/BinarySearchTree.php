@@ -158,8 +158,41 @@ class BinarySearchTree
         echo $node->e . PHP_EOL;
     }
 
+    // 二分搜索树的非递归前序遍历
+    public function preOrderNR()
+    {
+        $stack = new splstack();
+        $stack->push($this->root);
+        while (!$stack->isEmpty()) {
+            $cur = $stack->pop();
+            echo $cur->e. '->';
+            if ($cur->right != null) {
+                $stack->push($cur->right);
+            }
+            if ($cur->left != null) {
+                $stack->push($cur->left);
+            }
+        }
+    }
 
+    // 二分搜索树的层序遍历
+    public function levelOrder() : void
+    {
 
+        $queue = new SplQueue();
+        $queue->enqueue($this->root);
+        while (!$queue->isEmpty()) {
+
+            $cur = $queue->dequeue();
+            echo $cur->e . '=>';
+            if ($cur->left != null) {
+                $queue->enqueue($cur->left);
+            }
+            if ($cur->right != null) {
+                $queue->enqueue($cur->right);
+            }
+        }
+    }
 
 }
 
