@@ -284,6 +284,65 @@ class BinarySearchTree
     }
 
 
+    // 从二分搜索树中删除元素为e的节点
+    public function remove($e) : void
+    {
+        $this->root = $this->removeNode($this->root, $e);
+    }
+
+    // 删除掉以node为根的二分搜索树中值为e的节点, 递归算法
+    // 返回删除节点后新的二分搜索树的根
+    public function removeNode($node, $e)
+    {
+
+        if ($node == null) {
+            return null;
+        }
+
+        if (strcmp($e, $node->e) < 0) {
+
+            $node->left = $this->removeNode($node->left, $e);
+            return $node;
+
+        } elseif (strcmp($e, $node->e) > 0) {
+
+            $node->right = $this->removeNode($node->right, $e);
+            return $node;
+
+        } else { //相等情况
+
+            // 待删除节点左子树为空的情况
+            if ($node->left == null) {
+                $rightNode = $node->right;
+                $node->right = null;
+                $this->size--;
+                return $rightNode;
+            }
+
+            // 待删除节点右子树为空的情况
+            if ($node->right == null) {
+                $leftNode = $node->left;
+                $node->left = null;
+                $this->size--;
+                return $leftNode;
+            }
+
+            // 待删除节点左右子树均不为空的情况
+
+            // 找到比待删除节点大的最小节点, 即待删除节点右子树的最小节点
+            // 用这个节点顶替待删除节点的位置
+            $successor = new Node($this->minimumNode($node->right)->e);
+
+            $successor->right = $this->removeMinNode($node->right);
+            $successor->left = $node->left;
+
+            $node->left = $node->right = null;
+
+            return $successor;
+        }
+    }
+
+
 
 }
 
