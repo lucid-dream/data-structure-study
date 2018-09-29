@@ -45,25 +45,25 @@ class BinarySearchTree
             return new Node($e);
         }
 
-//        if (bccomp($e, $node->e) == -1) {
-//
-//            $node->left = $this->addNode($node->left, $e);
-//
-//        } elseif (bccomp($e, $node->e) == 1) {
-//
-//            $node->right = $this->addNode($node->right, $e);
-//
-//        }
-
-        if (strcmp($e, $node->e) < 0) {
+        if (bccomp($e, $node->e) == -1) {
 
             $node->left = $this->addNode($node->left, $e);
 
-        } elseif (strcmp($e, $node->e) > 0) {
+        } elseif (bccomp($e, $node->e) == 1) {
 
             $node->right = $this->addNode($node->right, $e);
 
         }
+//
+//        if (strcmp($e, $node->e) < 0) {
+//
+//            $node->left = $this->addNode($node->left, $e);
+//
+//        } elseif (strcmp($e, $node->e) > 0) {
+//
+//            $node->right = $this->addNode($node->right, $e);
+//
+//        }
 
 
         return $node;
@@ -290,8 +290,17 @@ class BinarySearchTree
         $this->root = $this->removeNode($this->root, $e);
     }
 
-    // 删除掉以node为根的二分搜索树中值为e的节点, 递归算法
-    // 返回删除节点后新的二分搜索树的根
+
+    /**
+     *
+     *  删除掉以node为根的二分搜索树中值为e的节点, 递归算法
+     *  返回删除节点后新的二分搜索树的根
+     *
+     *  1. 节点没有孩子                 (同链表删除方法一致)
+     *  2. 节点只有左孩子 或者 只有右孩子  (同链表删除方法一致
+     *  3. 节点有左右孩子
+     *
+     */
     public function removeNode($node, $e)
     {
 
@@ -299,17 +308,17 @@ class BinarySearchTree
             return null;
         }
 
-        if (strcmp($e, $node->e) < 0) {
+        if (bccomp($e, $node->e) == -1) {
 
             $node->left = $this->removeNode($node->left, $e);
             return $node;
 
-        } elseif (strcmp($e, $node->e) > 0) {
+        } elseif (bccomp($e, $node->e) == 1) {
 
             $node->right = $this->removeNode($node->right, $e);
             return $node;
 
-        } else { //相等情况
+        } elseif (bccomp($e, $node->e) == 0) { //相等情况
 
             // 待删除节点左子树为空的情况
             if ($node->left == null) {
