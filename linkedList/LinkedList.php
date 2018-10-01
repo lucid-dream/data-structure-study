@@ -165,6 +165,29 @@ class LinkedList
         return $this->remove($this->size - 1);
     }
 
+
+    // 从链表中删除元素e
+    public function removeElement($e): void
+    {
+        $prev = $this->dummyHead;
+
+        while ($prev->next != null) {
+            if ($prev->next->e == $e) {
+                break;
+            }
+            $prev = $prev->next;
+        }
+
+        if ($prev->next != null) {
+            $delNode = $prev->next;
+            $prev->next = $delNode->next;
+            $delNode->next = null;
+            $this->size--;
+        }
+    }
+
+
+
 }
 
 //try {
