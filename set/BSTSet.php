@@ -8,6 +8,28 @@
 include_once "Set.php";
 include_once "../binarySearchTree/BinarySearchTree.php";
 
+/**
+ * Class BSTSet
+ *
+    满二叉树
+///////////////// 深度
+//      5      //  0
+//    /   \    //
+//   3    6    //  1
+//  / \  / \   //
+// 2  4 7   8  //  2
+/////////////////
+ *
+ * 复杂度 O(h) 假设 h是树的深度，从根节点 0 开始
+ * 2^0 + 2^1 + 2^2 = 1+2+4 = 7
+ * 2^3 - 1 = 8 - 1 = 7
+ * 2^3 = log2(8)
+ *
+ * 满二叉树 h层共有 2^h-1 = n 的节点，
+ * 复杂度 h+1 = log2(n) => O(log2n) => O(logn)
+ *
+ *
+ */
 class BSTSet implements Set
 {
 
@@ -28,7 +50,7 @@ class BSTSet implements Set
         return $this->bst->isEmpty();
     }
 
-    // O(h)  h是树的高度
+    // O(h)
     public function add($e) : void
     {
         $this->bst->add($e);
