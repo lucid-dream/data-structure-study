@@ -32,8 +32,8 @@ class LinkedListSet implements Set
     // O(n)
     public function add($e) : void
     {
-        if (!$this->list->contains($e)) {
-            $this->list->addFirst($e);
+        if (!$this->list->contains($e)) {  // O(n)
+            $this->list->addFirst($e); // O(1)
         }
 
     }
