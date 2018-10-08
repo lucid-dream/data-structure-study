@@ -53,13 +53,16 @@ class BSTMap implements Map
 
             $node->right = $this->addNode($node->right, $key, $value);
 
+        } elseif (bccomp($key, $node->key) == 0) {
+            // 如果key 存在，则更新
+            $node->value = $value;
         }
 
         return $node;
     }
 
     // 返回以node为根节点的二分搜索树中，key所在的节点
-    private function getNode($node, $key): BSTNode
+    private function getNode($node, $key)
     {
         if ($node == null) {
             return null;
@@ -72,6 +75,7 @@ class BSTMap implements Map
         } elseif (bccomp($key, $node->key) == 1) {
             return $this->getNode($node->right, $key);
         }
+
     }
 
     public function contains($key): bool
@@ -172,7 +176,7 @@ class BSTMap implements Map
 
             // 找到比待删除节点大的最小节点, 即待删除节点右子树的最小节点
             // 用这个节点顶替待删除节点的位置
-            $successor = new Node($this->minimumNode($node->right)->e);
+            $successor = $this->minimumNode($node->right);
 
             $successor->right = $this->removeMinNode($node->right);
             $successor->left = $node->left;
