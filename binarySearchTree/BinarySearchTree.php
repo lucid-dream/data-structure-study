@@ -340,7 +340,9 @@ class BinarySearchTree
 
             // 找到比待删除节点大的最小节点, 即待删除节点右子树的最小节点
             // 用这个节点顶替待删除节点的位置
-            $successor = new Node($this->minimumNode($node->right)->e);
+
+//            $successor = new Node($this->minimumNode($node->right)->e);
+            $successor = $this->minimumNode($node->right);
 
             $successor->right = $this->removeMinNode($node->right);
             $successor->left = $node->left;
