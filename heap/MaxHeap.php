@@ -13,14 +13,23 @@ class MaxHeap
 
     public function __construct(array $arr = [])
     {
-        $this->data = $arr;
+
+//        $this->data = $arr;
+
+        $this->heapify($arr);
+
     }
 
-//    public MaxHeap(E[] arr){
-//        data = new Array<>(arr);
-//        for(int i = parent(arr.length - 1) ; i >= 0 ; i --)
-//            siftDown(i);
-//    }
+    // 将任意数组整理成堆形状
+    public function heapify(array $arr)
+    {
+        $this->data = $arr;
+
+        // $i 获取到最后一个非叶子节点的元素
+        for ($i = $this->parent(count($arr) - 1); $i >= 0; $i--) {
+            $this->siftDown($i);
+        }
+    }
 
     // 返回堆中的元素个数
     public function size() : int
@@ -146,14 +155,12 @@ class MaxHeap
 
 }
 
-$heap = new MaxHeap([62, 41, 30, 28, 16, 22 ,13, 19, 17, 15]);
+//$heap = new MaxHeap([62, 41, 30, 28, 16, 22 ,13, 19, 17, 15]);
+//$heap->add(52);
+//$heap->extractMax();
+//var_dump($heap);
 
 
-$heap->add(52);
-
-
-var_dump($heap);
-
-$heap->extractMax();
+$heap = new MaxHeap([15, 17, 19, 13, 22, 16, 28, 30, 41, 62]);
 
 var_dump($heap);
