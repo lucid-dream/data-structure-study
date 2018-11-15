@@ -7,5 +7,5 @@
  */
 interface Merger
 {
-    function merge($a, $b);
+    function merge(int $a, int $b) : int;
 }
