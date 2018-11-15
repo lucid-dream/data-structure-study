@@ -92,41 +92,44 @@ class SegmentTree
     public function query(int $queryL, int $queryR)
     {
 
-        if($queryL < 0 || $queryL >= count($this->data) ||
-            $queryR < 0 || $queryR >= count($this->data) || $queryL > $queryR) {
-
+        if (isset($this->data[$queryL]) === false ||
+            isset($this->data[$queryR]) === false ||
+            $queryL > $queryR
+        ) {
             exit('Index is illegal.');
         }
 
-        return $this->querys(0, 0, count($this->data) - 1, $queryL, $queryR);
+        return $this->queryValue(0, 0, count($this->data) - 1, $queryL, $queryR);
     }
 
 
     // 在以treeIndex为根的线段树中[l...r]的范围里，搜索区间[queryL...queryR]的值
-    private function querys(int $treeIndex, int $l, int $r, int $queryL, int $queryR)
+    private function queryValue(int $treeIndex, int $l, int $r, int $queryL, int $queryR)
     {
 
         if($l == $queryL && $r == $queryR) {
             return $this->tree[$treeIndex];
         }
 
-        $mid = $l + ($r - $l) / 2;
+
+        $mid = ($l + $r) / 2;  // $mid = $l + ($r - $l) / 2;
+        $mid = (int) $mid;
         // treeIndex的节点分为[l...mid]和[mid+1...r]两部分
 
         $leftTreeIndex = $this->leftChild($treeIndex);
         $rightTreeIndex = $this->rightChild($treeIndex);
 
         if($queryL >= $mid + 1) {
-            return $this->querys($rightTreeIndex, $mid + 1, $r, $queryL, $queryR);
+            return $this->queryValue($rightTreeIndex, $mid + 1, $r, $queryL, $queryR);
 
         } elseif($queryR <= $mid) {
 
-            return $this->querys($leftTreeIndex, $l, $mid, $queryL, $queryR);
+            return $this->queryValue($leftTreeIndex, $l, $mid, $queryL, $queryR);
 
         }
 
-        $leftResult = $this->querys($leftTreeIndex, $l, $mid, $queryL, $mid);
-        $rightResult = $this->querys($rightTreeIndex, $mid + 1, $r, $mid + 1, $queryR);
+        $leftResult = $this->queryValue($leftTreeIndex, $l, $mid, $queryL, $mid);
+        $rightResult = $this->queryValue($rightTreeIndex, $mid + 1, $r, $mid + 1, $queryR);
         return $this->merger->merge($leftResult, $rightResult);
     }
 
