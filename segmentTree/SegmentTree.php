@@ -53,6 +53,7 @@ class SegmentTree
         $leftTreeIndex = $this->leftChild($treeIndex);
         $rightTreeIndex = $this->rightChild($treeIndex);
 
+        // 左子树的 数组末尾下标
         $mid = ($l + $r) / 2;  // $mid = $l + ($r - $l) / 2;
         $mid = (int) $mid;
 
@@ -120,14 +121,17 @@ class SegmentTree
         $rightTreeIndex = $this->rightChild($treeIndex);
 
         if($queryL >= $mid + 1) {
+            // 如果查找的范围全部在右子树
             return $this->queryValue($rightTreeIndex, $mid + 1, $r, $queryL, $queryR);
 
         } elseif($queryR <= $mid) {
 
+            // 如果查找的范围全部在左子树
             return $this->queryValue($leftTreeIndex, $l, $mid, $queryL, $queryR);
 
         }
 
+        // 如果查找的范围一部分落在左子树，一部分落在右子树 情况
         $leftResult = $this->queryValue($leftTreeIndex, $l, $mid, $queryL, $mid);
         $rightResult = $this->queryValue($rightTreeIndex, $mid + 1, $r, $mid + 1, $queryR);
         return $this->merger->merge($leftResult, $rightResult);

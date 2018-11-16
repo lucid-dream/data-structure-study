@@ -17,6 +17,8 @@ try {
 
     $tree = new SegmentTree($nums, $merger);
 
+    var_dump($tree->query(0, 3));
+
     var_dump($tree);
 
 } catch (Exception $exception) {
