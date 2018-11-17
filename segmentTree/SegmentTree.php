@@ -138,4 +138,47 @@ class SegmentTree
     }
 
 
+    // 将index位置的值，更新为e O(logn)
+    public function set(int $index, $e): void
+    {
+
+        if (isset($this->data[$index]) === false) {
+            exit("Index is illegal");
+        }
+
+        $this->data[$index] = $e;
+
+        $this->setNode(0, 0, count($this->data) - 1, $index, $e);
+
+    }
+
+    // 在以treeIndex为根的线段树中更新index的值为e
+    private function setNode(int $treeIndex, int $l, int $r, int $index, $e): void
+    {
+
+        if ($l == $r) {
+            $this->tree[$treeIndex] = $e;
+            return;
+        }
+
+        $mid = ($l + $r) / 2;  // $mid = $l + ($r - $l) / 2;
+        $mid = (int) $mid;
+
+        $leftTreeIndex = $this->leftChild($treeIndex);
+        $rightTreeIndex = $this->rightChild($treeIndex);
+
+        if ($index >= $mid + 1) {
+
+            $this->setNode($rightTreeIndex, $mid + 1, $r, $index, $e);
+
+        } else {
+
+            $this->setNode($leftTreeIndex, $l, $mid, $index, $e);
+
+        }
+
+        $this->tree[$treeIndex] = $this->merger->merge($this->tree[$leftTreeIndex], $this->tree[$rightTreeIndex]);
+    }
+
+
 }

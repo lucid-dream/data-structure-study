@@ -17,7 +17,11 @@ try {
 
     $tree = new SegmentTree($nums, $merger);
 
+
     var_dump($tree->query(0, 3));
+
+    // 已更改 下标[5] 值为 2 为例， 在右子树中查找，逐个更新 下标[6] => 2 ，[2] => -1, [0] => 0
+    var_dump($tree->set(5, 2));
 
     var_dump($tree);
 
