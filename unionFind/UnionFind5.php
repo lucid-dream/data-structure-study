@@ -1,7 +1,7 @@
 <?php
 
 
-// 树版 Union-Find，基于rank(高度)的优化， 路径压缩
+// 树版 Union-Find，基于rank(排行)的优化， 路径压缩
 require_once "UF.php";
 
 class UnionFind5 implements UF
@@ -37,8 +37,14 @@ class UnionFind5 implements UF
         // 根节点的特点: parent[p] == p, 如果 parent[p] != p, 说明有父亲节点
          while($p != $this->parent[$p]) {
 
-             //路径压缩 只增加该行代码，此时rank并无作用
+             //路径压缩 只增加该行代码，查找同时改变元素指向的节点，此时并不维护rank值,也不影响
              $this->parent[$p] = $this->parent[$this->parent[$p]];
+
+//               已 find(4) 为例子
+//                 ①    ①
+//                ②    ②
+//               ③    ③ ④
+//              ④
 
              $p = $this->parent[$p];
          }
