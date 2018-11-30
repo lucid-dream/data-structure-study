@@ -4,7 +4,7 @@
 // 树版 Union-Find，基于rank(排行)的优化， 路径压缩
 require_once "UF.php";
 
-class UnionFind5 implements UF
+class UnionFind6 implements UF
 {
 
     // 使用一个数组构建一棵指向父节点的树
@@ -23,6 +23,13 @@ class UnionFind5 implements UF
             $this->rank[$i] = 1; // $this->rank[$i] = count($this->parent[$i]);
         }
 
+        $this->parent = [];
+        $this->parent[0]= 0;
+        $this->parent[1]= 0;
+        $this->parent[2]= 1;
+        $this->parent[3]= 2;
+        $this->parent[4]= 3;
+
     }
 
     // 查找过程, 查找元素p所对应的集合编号，O(h)复杂度, h为树的高度
@@ -33,23 +40,21 @@ class UnionFind5 implements UF
             exit("p is out of bound.");
         }
 
-        // 不断去查询自己的父亲节点, 直到到达根节点
-        // 根节点的特点: parent[p] == p, 如果 parent[p] != p, 说明有父亲节点
-         while($p != $this->parent[$p]) {
+        // path compression 2, 递归算法
+        if ($p != $this->parent[$p]) {
 
-             //路径压缩 只增加该行代码，查找同时改变元素指向的节点，此时并不维护rank值,也不影响
-             $this->parent[$p] = $this->parent[$this->parent[$p]];
+            $this->parent[$p] = $this->find($this->parent[$p]);
 
-//               已 find(4) 为例子
-//                  〇    〇
-//                 ①    ①
-//                ②    ②
-//               ③    ③ ④
+        }
+
+        return $this->parent[$p];
+
+//                  〇
+//                 ①     〇
+//                ②    ①②③④
+//               ③
 //              ④
 
-             $p = $this->parent[$p];
-         }
-         return $p;
     }
 
     // 查看元素p和元素q是否所属一个集合，O(h)复杂度, h为树的高度
