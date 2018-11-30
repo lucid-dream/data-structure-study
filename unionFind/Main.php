@@ -11,6 +11,8 @@ require_once "UnionFind1.php";
 require_once "UnionFind2.php";
 require_once "UnionFind3.php";
 require_once "UnionFind4.php";
+require_once "UnionFind5.php";
+require_once "UnionFind6.php";
 
 
 try {
@@ -47,38 +49,49 @@ try {
     $uf2 = new UnionFind2($size);
     $uf3 = new UnionFind3($size);
     $uf4 = new UnionFind4($size);
+    $uf5 = new UnionFind5($size);
+    $uf6 = new UnionFind6($size);
 
-    echo "Testing size {$size}, m {$m}". PHP_EOL;
+    echo "Testing size:{$size}, m:{$m}". PHP_EOL;
 
     echo "UF1:". testUF($uf1, $m). PHP_EOL;
     echo "UF2:". testUF($uf2, $m). PHP_EOL;
     echo "UF3:". testUF($uf3, $m). PHP_EOL;
     echo "UF4:". testUF($uf4, $m). PHP_EOL;
+    echo "UF5:". testUF($uf5, $m). PHP_EOL;
+    echo "UF6:". testUF($uf6, $m). PHP_EOL;
 
     /*
-    时间复杂度测试：
-    Testing size 1000, m 1000
-    UF1:9.3148510456085
-    UF2:0.14576482772827
-    UF3:0.11678194999695
-    UF4:0.1142041683197
+        Testing size:1000, m:1000
+        UF1:9.5597779750824
+        UF2:0.14099717140198
+        UF3:0.11234498023987
+        UF4:0.11424899101257
+        UF5:0.11105513572693
+        UF6:0.14853310585022
 
-    Testing size 10000, m 10000
-    UF2:4.6942520141602
-    UF3:1.1248331069946
 
-    Testing size 10000, m 10000
-    UF2:4.6293981075287
-    UF3:1.1758089065552
-    UF4:1.1527609825134
+        Testing size:10000, m:10000
+        UF2:4.3511121273041
+        UF3:1.0315790176392
+        UF4:1.0441451072693
+        UF5:1.0624248981476
+        UF6:1.3910329341888
 
-    Testing size 100000, m 100000
-    UF3:11.525384902954
-    UF4:11.349576950073
 
-    Testing size 1000000, m 1000000
-    UF3:128.67582011223
-    UF4:122.67266702652
+        Testing size:100000, m:100000
+        UF3:11.611232995987
+        UF4:12.30042386055
+        UF5:11.065513134003
+        UF6:14.918389081955
+
+
+        Testing size:1000000, m:1000000
+        UF3:112.86260890961
+        UF4:118.67182612419
+        UF5:115.47334289551
+        UF6:143.07465600967 //递归有额外开销
+
     */
 
 
