@@ -22,13 +22,13 @@ class UnionFind6 implements UF
             $this->parent[$i] = $i; // 元素 => 集合编号
             $this->rank[$i] = 1; // $this->rank[$i] = count($this->parent[$i]);
         }
-
-        $this->parent = [];
-        $this->parent[0]= 0;
-        $this->parent[1]= 0;
-        $this->parent[2]= 1;
-        $this->parent[3]= 2;
-        $this->parent[4]= 3;
+//
+//        $this->parent = [];
+//        $this->parent[0]= 0;
+//        $this->parent[1]= 0;
+//        $this->parent[2]= 1;
+//        $this->parent[3]= 2;
+//        $this->parent[4]= 3;
 
     }
 
