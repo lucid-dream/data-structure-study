@@ -13,6 +13,8 @@ class AVLTree
     private $root; //Node
     private $size;
 
+    private $keys = [];
+
     public function __construct()
     {
         $this->root = null;
@@ -43,27 +45,36 @@ class AVLTree
 
     /**
      * 判断该二叉树是否是一棵二分搜索树
+     *
      * @return bool
      */
     public function isBst(): bool
     {
-        $keys = [];
-        $this->inOrder($this->root, $keys);
-        for($i = 1; $i < count($keys); $i++) {
-            if(bccomp($keys[$i - 1], $keys[$i]) == 1) {
+        $this->keys = [];
+        $this->inOrder($this->root);
+
+        for($i = 1; $i < count($this->keys); $i++) {
+
+            //如果 二个相邻的元素，左边下标，大于右边下标，则不是二分搜索树 （因为中序遍历是升序的）
+            if(bccomp($this->keys[$i - 1], $this->keys[$i]) == 1) {
                 return false;
             }
         }
         return true;
     }
 
-    private function inOrder($node, $keys): void
+    /**
+     * 中序遍历(升序) 并赋值到 keys
+     *
+     * @param $node
+     */
+    private function inOrder(?Node $node): void
     {
         if ($node == null) {
             return;
         }
-        $this->inOrder($node, $keys);
-        $this->add($node->key);
+        $this->inOrder($node->left);
+        $this->keys[] = $node->key;
         $this->inOrder($node->right);
     }
 
