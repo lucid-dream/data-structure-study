@@ -19,11 +19,23 @@ class AVLTree
         $this->size = 0;
     }
 
+    /**
+     * 获取树的元素个数
+     *
+     * @author wuyihao <wuyihao@vpgame.cn>
+     * @return int
+     */
     public function getSize(): int
     {
         return $this->size;
     }
 
+    /**
+     * 是否是空树
+     *
+     * @author wuyihao <wuyihao@vpgame.cn>
+     * @return bool
+     */
     public function isEmpty(): bool
     {
         return $this->size == 0;
@@ -45,7 +57,7 @@ class AVLTree
         return true;
     }
 
-    private function inOrder(Node $node, $keys): void
+    private function inOrder($node, $keys): void
     {
         if ($node == null) {
             return;
@@ -62,7 +74,7 @@ class AVLTree
     }
 
 // 判断以Node为根的二叉树是否是一棵平衡二叉树，递归算法
-    private function isBalancedNode(Node $node): bool
+    private function isBalancedNode($node): bool
     {
 
         if ($node == null) {
@@ -73,7 +85,7 @@ class AVLTree
         if (abs($balanceFactor) > 1) {
             return false;
         }
-        return $this->isBalanced($node->left) && $this->isBalanced($node->right);
+        return $this->isBalancedNode($node->left) && $this->isBalancedNode($node->right);
     }
 
 
@@ -81,10 +93,9 @@ class AVLTree
     /**
      * 获取树的节点高度
      *
-     * @param Node $node
      * @return int
      */
-    private function getHeight(Node $node) : int
+    private function getHeight($node) : int
     {
         if ($node == null) {
             return 0;
@@ -152,7 +163,7 @@ class AVLTree
         $balanceFactor = $this->getBalanceFactor($node);
 
         if(abs($balanceFactor) > 1) {
-            exit("unbalanced:{balanceFactor}");
+            echo "unbalanced:{$balanceFactor}";
         }
 
         return $node;
