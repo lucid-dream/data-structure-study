@@ -66,7 +66,7 @@ class AVLTree
     /**
      * 中序遍历(升序) 并赋值到 keys
      *
-     * @param $node
+     * @param Node|null $node
      */
     private function inOrder(?Node $node): void
     {
@@ -78,14 +78,24 @@ class AVLTree
         $this->inOrder($node->right);
     }
 
-    // 判断该二叉树是否是一棵平衡二叉树
+    /**
+     * 判断该二叉树是否是一棵平衡二叉树
+     *
+     * @return bool
+     */
     public function isBalanced(): bool
     {
         return $this->isBalancedNode($this->root);
     }
 
-// 判断以Node为根的二叉树是否是一棵平衡二叉树，递归算法
-    private function isBalancedNode($node): bool
+    /**
+     *
+     * 判断以Node为根的二叉树是否是一棵平衡二叉树
+     *
+     * @param Node|null $node
+     * @return bool
+     */
+    private function isBalancedNode(?Node $node): bool
     {
 
         if ($node == null) {
@@ -93,20 +103,20 @@ class AVLTree
         }
 
         $balanceFactor = $this->getBalanceFactor($node);
+
         if (abs($balanceFactor) > 1) {
             return false;
         }
+
         return $this->isBalancedNode($node->left) && $this->isBalancedNode($node->right);
     }
-
-
 
     /**
      * 获取树的节点高度
      *
      * @return int
      */
-    private function getHeight($node) : int
+    private function getHeight(?Node $node) : int
     {
         if ($node == null) {
             return 0;
@@ -128,8 +138,67 @@ class AVLTree
         return $this->getHeight($node->left) - $this->getHeight($node->right);
     }
 
+    // 对节点y进行向右旋转操作，返回旋转后新的根节点x
+    //  T1 < z < T2 < x < T3 < y < T4
+    //        y                              x
+    //       / \                           /   \
+    //      x   T4     向右旋转 (y)        z     y
+    //     / \       - - - - - - - ->    / \   / \
+    //    z   T3                       T1  T2 T3 T4
+    //   / \
+    // T1   T2
+    private function rightRotate(Node $y) : Node
+    {
+        $x = $y->left;
+        $T3 = $x->right;
+
+        // 向右旋转过程
+        $x->right = $y;
+        $y->left = $T3;
+
+        // 更新height
+        $y->height = max($this->getHeight($y->left), $this->getHeight($y->right)) + 1;
+        $x->height = max($this->getHeight($x->left), $this->getHeight($x->right)) + 1;
+
+        return $x;
+    }
+
+    // 对节点y进行向左旋转操作，返回旋转后新的根节点x
+    //  T1 < y < T2 < x < T3 < y < T4
+    //    y                             x
+    //  /  \                          /   \
+    // T1   x      向左旋转 (y)       y     z
+    //     / \   - - - - - - - ->   / \   / \
+    //   T2  z                     T1 T2 T3 T4
+    //      / \
+    //     T3 T4
+    private function leftRotate(Node $y) : Node
+    {
+
+        $x = $y->right;
+        $T2 = $x->left;
+
+        // 向左旋转过程
+        $x->left = $y;
+        $y->right = $T2;
+
+        // 更新height
+        $y->height = max($this->getHeight($y->left), $this->getHeight($y->right)) + 1;
+        $x->height = max($this->getHeight($x->left), $this->getHeight($x->right)) + 1;
+
+        return $x;
+    }
+
+
+
     /**
-     * 向二分搜索树中添加新的元素(key, value)
+     *  向二分搜索树中添加新的元素(key, value)
+     *
+     *  添加元素的时候，才可能会破坏树的平衡性（一共四种情况）
+     *  LL 插入的元素在不平衡节点的左侧的左侧
+     *  LR 插入的元素在不平衡节点的左侧的右侧
+     *  RR 插入的元素在不平衡节点的右侧的右侧
+     *  RL 插入的元素在不平衡节点的右侧的左侧
      *
      * @param $key
      * @param $value
@@ -142,12 +211,13 @@ class AVLTree
     /**
      * 向以node为根的二分搜索树中插入元素(key, value)，返回插入新节点后二分搜索树的根
      *
-     * @param $node
+     * @author wuyihao <wuyihao@vpgame.cn>
+     * @param Node|null $node
      * @param $key
      * @param $value
      * @return Node
      */
-    private function addNode($node, $key, $value): Node
+    private function addNode(?Node $node, $key, $value): Node
     {
         if ($node == null) {
             $this->size++;
@@ -173,9 +243,34 @@ class AVLTree
         // 计算平衡因子
         $balanceFactor = $this->getBalanceFactor($node);
 
-        if(abs($balanceFactor) > 1) {
-            echo "unbalanced:{$balanceFactor}";
+        /** 平衡维护 ↓ H=height, B=Balance **/
+
+        // LL情况 ↓
+        //   ⑨ => H=3 , B=2
+        //  ⑧  => H=2 , B=1
+        // ⑦   => H=1 , B=0
+        if ($balanceFactor > 1 && $this->getBalanceFactor($node->left) >= 0) {
+            return $this->rightRotate($node);
         }
+
+        // RR
+        // ⑦
+        //  ⑧
+        //   ⑨
+        if ($balanceFactor < -1 && $this->getBalanceFactor($node->right) <= 0) {
+            return $this->leftRotate($node);
+        }
+
+        if ($balanceFactor > 1 && $this->getBalanceFactor($node->left) < 0) {
+            $node->left = $this->leftRotate($node->left);
+            return $this->rightRotate($node);
+        }
+
+        if ($balanceFactor < -1 && $this->getBalanceFactor($node->right) > 0) {
+            $node->right = $this->rightRotate($node->right);
+            return $this->leftRotate($node);
+        }
+
 
         return $node;
     }
