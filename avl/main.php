@@ -31,19 +31,20 @@ try {
         $avl->add(5, 1);
     */
 
-    $avl->add(5, 1);
-    $avl->add(9, 1);
-    $avl->add(7, 1);
+    /*  RL
+        $avl->add(5, 1);
+        $avl->add(9, 1);
+        $avl->add(7, 1);
+    */
 
 
     echo "<pre>";
 
     var_dump($avl->isBalanced());
-
     print_r($avl);
 
 } catch (Error $error) {
 
-    echo $error->getMessage(); die;
+    echo $error->getMessage();
 
 }
