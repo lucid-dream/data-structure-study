@@ -15,16 +15,16 @@ class Node
 {
     public $key;
     public $value;
-    public $left, $right; //node
     public $height; // 树的高度 int
+    public $left, $right; //node
 
     public function __construct($key, $value)
     {
         $this->key = $key;
         $this->value = $value;
+        $this->height = 1;
         $this->left = null;
         $this->right = null;
-        $this->height = 1;
     }
 
 }

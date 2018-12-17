@@ -24,7 +24,6 @@ class AVLTree
     /**
      * 获取树的元素个数
      *
-     * @author wuyihao <wuyihao@vpgame.cn>
      * @return int
      */
     public function getSize(): int
@@ -35,7 +34,6 @@ class AVLTree
     /**
      * 是否是空树
      *
-     * @author wuyihao <wuyihao@vpgame.cn>
      * @return bool
      */
     public function isEmpty(): bool
@@ -211,7 +209,6 @@ class AVLTree
     /**
      * 向以node为根的二分搜索树中插入元素(key, value)，返回插入新节点后二分搜索树的根
      *
-     * @author wuyihao <wuyihao@vpgame.cn>
      * @param Node|null $node
      * @param $key
      * @param $value
@@ -246,31 +243,38 @@ class AVLTree
         /** 平衡维护 ↓ H=height, B=Balance **/
 
         // LL情况 ↓
-        //   ⑨ => H=3 , B=2
-        //  ⑧  => H=2 , B=1
+        //   ⑨ => H=3 , B=2             ⑧
+        //  ⑧  => H=2 , B=1     ===>   ⑦ ⑨
         // ⑦   => H=1 , B=0
         if ($balanceFactor > 1 && $this->getBalanceFactor($node->left) >= 0) {
             return $this->rightRotate($node);
         }
 
         // RR
-        // ⑦
-        //  ⑧
+        // ⑦            ⑧
+        //  ⑧    ===>  ⑦ ⑨
         //   ⑨
         if ($balanceFactor < -1 && $this->getBalanceFactor($node->right) <= 0) {
             return $this->leftRotate($node);
         }
 
+        // LR (LR => LL => 右旋)
+        // ⑧         ⑧           ⑤
+        //①     ==> ⑤     ==>  ①  ⑧
+        //  ⑤      ①
         if ($balanceFactor > 1 && $this->getBalanceFactor($node->left) < 0) {
             $node->left = $this->leftRotate($node->left);
             return $this->rightRotate($node);
         }
 
+        // RL (RL => RR => 左旋)
+        // ⑤         ⑤           ⑦
+        //  ⑨     ==> ⑦     ==> ⑤ ⑨
+        // ⑦           ⑨
         if ($balanceFactor < -1 && $this->getBalanceFactor($node->right) > 0) {
             $node->right = $this->rightRotate($node->right);
             return $this->leftRotate($node);
         }
-
 
         return $node;
     }
