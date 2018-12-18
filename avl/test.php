@@ -34,6 +34,22 @@ try {
     }
     fclose($file);
 
+/*
+    让BST退化成链表(树向一边倾斜)， 测试200个元素数据；（php递归层数过深会报错，坑）
+    BST: 1.2424430847168
+    AVL: 0.1996679306030
+*/
+/*
+    $words = [];
+    for($i=1; $i<= 200; $i++) {
+        $words[$i] = $i;
+    }
+*/
+
+
+
+
+
     // Test BST
     $startTime = microtime(true);
     $bst = new BSTMap();
@@ -49,7 +65,7 @@ try {
     }
 
     $endTime = microtime(true);
-    echo "BST: " . ($endTime - $startTime);
+    echo "BST: " . ($endTime - $startTime).PHP_EOL;
 
 
     // Test AVL Tree
@@ -66,7 +82,12 @@ try {
 
     }
     $endTime = microtime(true);
-    echo "AVL: " . ($endTime - $startTime);
+    echo "AVL: " . ($endTime - $startTime).PHP_EOL;
+
+    /*
+        BST: 105.99728417397
+        AVL: 91.69841003418
+    */
 
 
 } catch (Error $error) {
