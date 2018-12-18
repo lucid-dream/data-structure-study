@@ -221,15 +221,28 @@ class AVLTree
             return new Node($key, $value);
         }
 
-        if (bccomp($key, $node->key) == -1) {
+//        if (bccomp($key, $node->key) == -1) {
+//
+//            $node->left = $this->addNode($node->left, $key, $value);
+//
+//        } elseif (bccomp($key, $node->key) == 1) {
+//
+//            $node->right = $this->addNode($node->right, $key, $value);
+//
+//        } elseif (bccomp($key, $node->key) == 0) {
+//            // 如果key 存在，则更新
+//            $node->value = $value;
+//        }
+
+        if (strnatcmp($key, $node->key) < 0) {
 
             $node->left = $this->addNode($node->left, $key, $value);
 
-        } elseif (bccomp($key, $node->key) == 1) {
+        } elseif (strnatcmp($key, $node->key) > 0) {
 
             $node->right = $this->addNode($node->right, $key, $value);
 
-        } elseif (bccomp($key, $node->key) == 0) {
+        } elseif (strnatcmp($key, $node->key) == 0) {
             // 如果key 存在，则更新
             $node->value = $value;
         }
@@ -286,11 +299,13 @@ class AVLTree
             return null;
         }
 
+
+
         if ($key == $node->key) {
             return $node;
-        } elseif (bccomp($key, $node->key) == -1) {
+        } elseif (strnatcmp($key, $node->key) < 0) {
             return $this->getNode($node->left, $key);
-        } elseif (bccomp($key, $node->key) == 1) {
+        } elseif (strnatcmp($key, $node->key) > 0) {
             return $this->getNode($node->right, $key);
         }
 
