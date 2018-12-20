@@ -353,7 +353,12 @@ class AVLTree
         $node->value = $newValue;
     }
 
-    // 返回以node为根的二分搜索树的最小值所在的节点
+    /**
+     * 返回以node为根的二分搜索树的最小值所在的节点
+     *
+     * @param $node
+     * @return mixed
+     */
     private function minimumNode($node)
     {
         if ($node->left == null) {
@@ -394,10 +399,13 @@ class AVLTree
 
     /**
      *
-     *  删除掉以node为根的二分搜索树中 key的节点, 递归算法
-     *  返回删除节点后新的二分搜索树的根
+     *  删除掉以node为根的二分搜索树中 key的节点, 返回删除节点后新的二分搜索树的根
+     *
+     * @param Node|null $node
+     * @param $key
+     * @return Node|null
      */
-    public function removeNode(?Node $node, $key)
+    private function removeNode(?Node $node, $key)
     {
 
         if ($node == null) {
