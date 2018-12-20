@@ -292,14 +292,18 @@ class AVLTree
         return $node;
     }
 
-    // 返回以node为根节点的二分搜索树中，key所在的节点
-    private function getNode($node, $key)
+    /**
+     * 返回以node为根节点的二分搜索树中，key所在的节点
+     *
+     * @param Node|null $node
+     * @param $key
+     * @return null
+     */
+    private function getNode(?Node $node, $key)
     {
         if ($node == null) {
             return null;
         }
-
-
 
         if ($key == $node->key) {
             return $node;
@@ -311,17 +315,35 @@ class AVLTree
 
     }
 
+    /**
+     * 是否包含节点
+     *
+     * @param $key
+     * @return bool
+     */
     public function contains($key): bool
     {
         return $this->getNode($this->root, $key) != null;
     }
 
+    /**
+     * 获取节点的值
+     *
+     * @param $key
+     * @return null
+     */
     public function get($key)
     {
         $node = $this->getNode($this->root, $key);
         return $node ? $node->value : null;
     }
 
+    /**
+     * 更新节点的值
+     *
+     * @param $key
+     * @param $newValue
+     */
     public function set($key, $newValue): void
     {
         $node = $this->getNode($this->root, $key);
@@ -354,7 +376,12 @@ class AVLTree
         return $node;
     }
 
-    // 从二分搜索树中删除键为key的节点
+    /**
+     * 从二分搜索树中删除键为key的节点
+     *
+     * @param $key
+     * @return null
+     */
     public function remove($key)
     {
         $node = $this->getNode($this->root, $key);
@@ -370,54 +397,99 @@ class AVLTree
      *  删除掉以node为根的二分搜索树中 key的节点, 递归算法
      *  返回删除节点后新的二分搜索树的根
      */
-    public function removeNode($node, $key)
+    public function removeNode(?Node $node, $key)
     {
 
         if ($node == null) {
             return null;
         }
 
-        if (bccomp($key, $node->key) == -1) {
+
+        if (strnatcmp($key, $node->key) < 0) {
 
             $node->left = $this->removeNode($node->left, $key);
-            return $node;
+            $retNode = $node;
 
-        } elseif (bccomp($key, $node->key) == 1) {
+        } elseif (strnatcmp($key, $node->key) > 0) {
 
             $node->right = $this->removeNode($node->right, $key);
-            return $node;
+            $retNode = $node;
 
-        } elseif (bccomp($key, $node->key) == 0) { //相等情况
+        } elseif ($key == $node->key) { //相等情况
 
             // 待删除节点左子树为空的情况
             if ($node->left == null) {
+
                 $rightNode = $node->right;
                 $node->right = null;
                 $this->size--;
-                return $rightNode;
-            }
+                $retNode = $rightNode;
 
-            // 待删除节点右子树为空的情况
-            if ($node->right == null) {
+            } elseif ($node->right == null) {
+
+                // 待删除节点右子树为空的情况
                 $leftNode = $node->left;
                 $node->left = null;
                 $this->size--;
-                return $leftNode;
+                $retNode = $leftNode;
+
+            } else {
+
+                // 待删除节点左右子树均不为空的情况
+
+                // 找到比待删除节点大的最小节点, 即待删除节点右子树的最小节点
+                // 用这个节点顶替待删除节点的位置
+                $successor = $this->minimumNode($node->right);
+
+//                $successor->right = $this->removeMinNode($node->right);
+
+                $successor->right = $this->removeNode($node->right, $successor->key);
+                $successor->left = $node->left;
+
+                $node->left = $node->right = null;
+
+                $retNode = $successor;
+
             }
 
-            // 待删除节点左右子树均不为空的情况
-
-            // 找到比待删除节点大的最小节点, 即待删除节点右子树的最小节点
-            // 用这个节点顶替待删除节点的位置
-            $successor = $this->minimumNode($node->right);
-
-            $successor->right = $this->removeMinNode($node->right);
-            $successor->left = $node->left;
-
-            $node->left = $node->right = null;
-
-            return $successor;
         }
+
+
+        if ($retNode == null) {
+            return null;
+        }
+
+        //更新节点高度
+        $retNode->height = 1 + max($this->getHeight($retNode->left), $this->getHeight($retNode->right));
+
+        // 计算平衡因子
+        $balanceFactor = $this->getBalanceFactor($retNode);
+
+        /** 平衡维护 **/
+        // LL情况 ↓
+        if ($balanceFactor > 1 && $this->getBalanceFactor($retNode->left) >= 0) {
+            return $this->rightRotate($retNode);
+        }
+
+        // RR
+        if ($balanceFactor < -1 && $this->getBalanceFactor($retNode->right) <= 0) {
+            return $this->leftRotate($retNode);
+        }
+
+        // LR (LR => LL => 右旋)
+        if ($balanceFactor > 1 && $this->getBalanceFactor($retNode->left) < 0) {
+            $retNode->left = $this->leftRotate($retNode->left);
+            return $this->rightRotate($retNode);
+        }
+
+        // RL (RL => RR => 左旋)
+        if ($balanceFactor < -1 && $this->getBalanceFactor($retNode->right) > 0) {
+            $retNode->right = $this->rightRotate($retNode->right);
+            return $this->leftRotate($retNode);
+        }
+
+        return $retNode;
+
     }
 
 
