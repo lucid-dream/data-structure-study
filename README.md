@@ -28,10 +28,12 @@
 - [x] BSTSet
 - [x] LinkedListSet
 - [x] 链表与二叉树集合复杂度分析
+- [x] AVLSet
 
 ## 映射
 - [x] LinkedListMap
 - [x] BSTMap
+- [x] AVLMap
 
 ## 堆
 - [x] MaxHeap
@@ -59,6 +61,7 @@
 - [x] 检测是否是平衡二叉树
 - [x] 右旋转 LL&LR
 - [x] 左旋转 RR&RL
+- [x] 删除元素
 
 
 
