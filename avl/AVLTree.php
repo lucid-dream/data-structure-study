@@ -51,10 +51,10 @@ class AVLTree
         $this->keys = [];
         $this->inOrder($this->root);
 
-        for($i = 1; $i < count($this->keys); $i++) {
+        for ($i = 1; $i < count($this->keys); $i++) {
 
             //如果 二个相邻的元素，左边下标，大于右边下标，则不是二分搜索树 （因为中序遍历是升序的）
-            if(bccomp($this->keys[$i - 1], $this->keys[$i]) == 1) {
+            if (bccomp($this->keys[$i - 1], $this->keys[$i]) == 1) {
                 return false;
             }
         }
@@ -114,7 +114,7 @@ class AVLTree
      *
      * @return int
      */
-    private function getHeight(?Node $node) : int
+    private function getHeight(?Node $node): int
     {
         if ($node == null) {
             return 0;
@@ -128,7 +128,7 @@ class AVLTree
      * @param Node $node
      * @return int
      */
-    private function getBalanceFactor(Node $node) : int
+    private function getBalanceFactor(Node $node): int
     {
         if ($node == null) {
             return 0;
@@ -145,7 +145,7 @@ class AVLTree
     //    z   T3                       T1  T2 T3 T4
     //   / \
     // T1   T2
-    private function rightRotate(Node $y) : Node
+    private function rightRotate(Node $y): Node
     {
         $x = $y->left;
         $T3 = $x->right;
@@ -170,7 +170,7 @@ class AVLTree
     //   T2  z                     T1 T2 T3 T4
     //      / \
     //     T3 T4
-    private function leftRotate(Node $y) : Node
+    private function leftRotate(Node $y): Node
     {
 
         $x = $y->right;
@@ -188,7 +188,6 @@ class AVLTree
     }
 
 
-
     /**
      *  向二分搜索树中添加新的元素(key, value)
      *
@@ -201,7 +200,7 @@ class AVLTree
      * @param $key
      * @param $value
      */
-    public function add($key, $value) : void
+    public function add($key, $value): void
     {
         $this->root = $this->addNode($this->root, $key, $value);
     }
@@ -500,5 +499,72 @@ class AVLTree
 
     }
 
+
+    /**
+     * 测试avl代码
+     *
+     */
+    public function main()
+    {
+
+        $file = fopen("pride-and-prejudice.txt", "r") or exit("Unable to open file!");
+
+        $pattern = '/\b[a-zA-Z]+\b/';
+
+        $words = [];
+
+        while (!feof($file)) {
+
+            $str = fgets($file);
+            preg_match_all($pattern, $str, $result);
+
+            foreach ($result as $list) {
+                foreach ($list as $word) {
+                    if (empty($word) === false) {
+                        $words[] = $word;
+                    }
+
+                }
+
+            }
+        }
+
+        fclose($file);
+
+//        echo date('Y-m-d H:i:s');
+
+        foreach ($words as $word) {
+
+            if ($this->contains($word)) {
+                $this->set($word, $this->get($word) + 1);
+            } else {
+                $this->add($word, 1);
+            }
+
+        }
+
+        echo "is BST : " . $this->isBST(). PHP_EOL;
+        echo "is Balanced : " . $this->isBalanced(). PHP_EOL;
+
+        // 测试删除方法
+        foreach ($words as $word) {
+
+           $this->remove($word);
+
+           echo $word.PHP_EOL. PHP_EOL;
+
+           if ($this->isBst() == false || $this->isBalanced() == false) {
+
+               echo "avlTree Code error;";
+               die;
+           }
+
+            echo $word.PHP_EOL. PHP_EOL;
+
+        }
+
+        echo date('Y-m-d H:i:s');
+
+    }
 
 }
